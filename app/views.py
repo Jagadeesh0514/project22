@@ -30,3 +30,20 @@ def insert_webpage(request):
         return HttpResponse('Webpage is inserted se=uccessfully')
     return render(request,'insert_webpage.html',d)
 
+def insert_access(request):
+    topics=Topic.objects.all()
+    d={'topics':topics}
+
+    if request.method=='POST':
+        topic=request.POST['topic']
+        na=request.POST['web']
+        ur=request.POST['ur']
+        da=request.POST['da']
+        T=Topic.objects.get_or_create(topic_name=topic)[0]
+        T.save()
+        W=Webpage.objects.get_or_create(topic_name=T,name=na,url=ur)[0]
+        W.save()
+        A=AccessRecords.objects.get_or_create(name=W,date=da)[0]
+        A.save()
+        return HttpResponse(' successfully Completed')
+    return render(request,'insert_access.html',d)
