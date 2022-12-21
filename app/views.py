@@ -47,3 +47,23 @@ def insert_access(request):
         A.save()
         return HttpResponse(' successfully Completed')
     return render(request,'insert_access.html',d)
+
+def select_topic(request):
+    topics=Topic.objects.all()
+    d={'topics':topics}
+
+    if request.method=='POST':
+        tn=request.POST.getlist('topic')
+        print(tn)
+        webpages=Webpage.objects.none()
+        for i in tn:
+            webpages=webpages|Webpage.objects.filter(topic_name=i)
+        data={'webpages':webpages}
+        return render(request,'display_webpage.html',data)
+    return render(request,'select_topic.html',d)
+
+def checkbox(request):
+    topics=Topic.objects.all()
+    d={'topics':topics}
+    
+    return render(request,'checkbox.html',d)
